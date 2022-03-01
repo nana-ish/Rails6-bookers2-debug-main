@@ -3,10 +3,12 @@ class BooksController < ApplicationController
  before_action :ensure_correct_user, only: [:update,:edit,:destroy]
 
   def show
+    @book_comment = BookComment.new
     @book = Book.new
     @bookdetail = Book.find(params[:id])
     @books = Book.all
     @user =  @bookdetail.user
+    @book_comments = @bookdetail.book_comments
   end
 
   def index
@@ -55,6 +57,11 @@ class BooksController < ApplicationController
   def book_params
     params.require(:book).permit(:title,:body)
   end
+
+  def book_comment_params
+    params.require(:book_comment).permit(:book_comment)
+  end
+
 
   def ensure_correct_user
     @book = Book.find(params[:id])
