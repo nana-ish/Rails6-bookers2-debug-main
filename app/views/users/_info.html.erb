@@ -6,11 +6,33 @@
   </tr>
   <tr>
 	  <th>introduction</th>
-	  <th><%=user.introduction %></th>
+	  <th><%= user.introduction %></th>
+  </tr>
+  <tr>
+	  <th>follows</th>
+	  <th><%= link_to user.followeds.count,followeds_user_path(user) %></th>
+  </tr>
+  <tr>
+	  <th>followers</th>
+	  <th><%= link_to user.followers.count,followers_user_path(user) %></th>
   </tr>
 </table>
 
+
 <div class='row'>
-  <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do%>
-    <i class="fas fa-user-cog"></i><% end %>
+  <% if current_user != user %>   <!--ログイン中のuserとフォローするuserが同じではないときにフォローボタンが表示される。-->
+    <% if user.followed_by?(current_user) %>
+        <%=link_to "フォロー解除", user_relationships_path(user.id), method: :delete,class: "btn btn-block btn-danger" %>
+    <% else %>
+        <%=link_to "フォローする", user_relationships_path(user.id), method: :post,class: "btn btn-block btn-primary" %>
+    <% end %>
+  <% end %>
 </div>
+
+<!--user情報編集機能-->
+  <% if current_user == user %>
+    <div class='row'>
+      <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do%>
+        <i class="fas fa-user-cog"></i><% end %>
+    </div>
+  <% end %>

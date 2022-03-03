@@ -9,7 +9,7 @@ class Book < ApplicationRecord
   validates :body,presence:true,length:{maximum:200}
 
  def favorited_by?(user)
-    #favoritesモデルの中からuser.idの存在を確認して、返す。
+    #favoritesモデルの中からuser.idの存在を確認して、1か０かを返す。
     favorites.where(user_id: user.id).exists?
  end
 

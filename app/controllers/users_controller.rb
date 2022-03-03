@@ -16,7 +16,6 @@ class UsersController < ApplicationController
     @books=Book.all
   end
 
-
   def edit
     @user = User.find(params[:id])
   end
@@ -36,6 +35,16 @@ class UsersController < ApplicationController
    redirect_to books_path
   end
 
+  def followeds
+    @user = User.find(params[:id])
+    @users = @user.followeds
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.followers
+  end
+
 #ストロングパラメータ
   private
 
@@ -49,5 +58,6 @@ class UsersController < ApplicationController
     redirect_to user_path(current_user)
     end
   end
+
 
 end
