@@ -8,7 +8,6 @@ class UsersController < ApplicationController
     @book = Book.new
   end
 
-
   def index
     @user=current_user
     @book=Book.new
@@ -27,7 +26,6 @@ class UsersController < ApplicationController
       render :edit
     end
   end
-
 
   def destroy
    user= User.find(params[:id])

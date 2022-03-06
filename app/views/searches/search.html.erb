@@ -1,0 +1,49 @@
+  <h2>Results index</h2>
+  <table class="table">
+    <!--検索対象モデルがUserの時 -->
+    <% if @range == "User" %>
+      <tbody>
+          <tr>
+            <th>user pic </th>
+            <th>user name</th>
+            <th>フォロワー数</th>
+            <th>フォロー数<th>
+            <th colspan="2"></th>
+          </tr>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= image_tag user.get_profile_image(50,50) %></td>
+            <td><%= link_to user.name,user_path(user) %></td>
+            <td> <%= user.followers.count %></td>
+            <td> <%= user.followeds.count %></td>
+            <td>
+              <% if current_user != user %>   <!--ログイン中のuserとフォローするuserが同じではないときにフォローボタンが表示される。-->
+                <% if user.followed_by?(current_user) %>
+                    <%=link_to "フォロー解除", user_relationships_path(user.id), method: :delete ,class: "btn  btn-danger"%>
+                <% else %>
+                    <%=link_to "フォローする", user_relationships_path(user.id), method: :post ,class: "btn  btn-primary"%>
+                <% end %>
+              <% end %>
+            </td>
+            <td><%= link_to 'Show', user, class: "user_#{user.id}" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% else %>
+      <!--検索対象モデルがUserではない時(= 検索対象モデルがBookの時) -->
+      <tbody>
+          <tr>
+            <th>user pic </th>
+            <th>title</th>
+            <th>opinion<th>
+          </tr>
+        <% @books.each do |book| %>
+          <tr>
+            <td><%= image_tag book.user.get_profile_image(50,50) %></td>
+            <td><%= link_to book.title,book_path(book) %></td>
+            <td><%= book.body %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    <% end %>
+  </table>

@@ -8,14 +8,15 @@ class User < ApplicationRecord
   has_many :favorites,dependent: :destroy
   has_many :book_comments,dependent: :destroy
 
- # ====================自分がフォローしているユーザーとの関連 =========================================================================
-  #フォローする側から見た 、フォローされる側のUserを(中間テーブルを介して)集める。なので親はfollower_id(フォローする側)foreign_key:1側
+ # ====================フォローしているユーザーとの関連 ================================================================================================================
+  #フォローする側から見た 、フォローされる側のUserを(中間テーブルを介して)集める。なので親（捕まえる側）はfollower_id(フォローする側)にあたる。この親を　foreign_key　とする。
   has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
-  #userが中間テーブル（relationships）を介して、follower(relationsship.rbで定義したuserモデルをもとにした仮想モデル)の情報を持ってくる。sourceは has_many :followedsの実際の情報
+  #userが中間テーブル（relationships）を介して、follower(relationsship.rbで定義したuserモデルをもとにした仮想モデル)の情報を持ってくる。
+  #sourceは何を基準にデータを持ってくるかであるため、自分がフォローしている人(followed)が基準になる。has_many :followedsの1単位
   has_many :followeds, through: :active_relationships, source: :followed
 
 
-# =====================自分がフォローされるユーザーとの関連 ===============================================================================
+# =====================フォローされるユーザーとの関連 ===================================================================================================================
   #フォローされた側から見たアソシエーション、フォローしてくる側のUserを(中間テーブルを介して)集める。なので親はfollowed_id(フォローされる側)
   has_many :passsive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   #userが中間テーブル（relationships）を介して、followerの情報(relationsship.rbで定義したuserモデルをもとにした仮想モデル)を持ってくる
@@ -41,5 +42,18 @@ class User < ApplicationRecord
     passsive_relationships.find_by(follower_id: user.id).present?
   end
 
+   def self.looks(search, word)
+    if search == "perfect_match"
+      @user = User.where("name LIKE?", "#{word}")
+    elsif search == "forward_match"
+      @user = User.where("name LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @user = User.where("name LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @user = User.where("name LIKE?","%#{word}%")
+    else
+      @user = User.all
+    end
+   end
 
 end
