@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "search" => "searches#search"
 
   resources :books do
-   resources :favorites, only: [:create, :destroy]
+   resource :favorites, only: [:create, :destroy]                 #favoriteは番号いらない
    resources :book_comments,only: [:create,:destroy]
   end
 

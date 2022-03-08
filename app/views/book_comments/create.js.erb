@@ -1,0 +1,3 @@
+<!--console.log("ここまできたよ");-->
+$("#comments-area").html("<%= j(render 'book_comments/comment', bookdetail: @bookdetail,book_comment: @book_comment) %>");
+$("#comments_all-area").html("<%= j(render "book_comments/comments",book_comments: @book_comments) %>");

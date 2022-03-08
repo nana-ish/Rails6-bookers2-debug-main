@@ -1,17 +1,17 @@
 <div class='container'>
   <div class='row'>
-
+    <!--=================user情報を追加_ここから=============================================================================================================================================-->
     <div class='col-md-3'>
       <h2>User info</h2>
       <%= render 'users/info',book: @book,user: @user %>
       <h2 class="mt-3">New book</h2>
       <%= render 'form', book: @book %>
     </div>
-
+    <!--=================user情報を追加_ここまで==============================================================================================================================================-->
     <div class='col-md-8 offset-md-1'>
-  		<h2>Book detail</h2>
-  		<table class='table'>
-  		  <tr>
+      <h2>Book detail</h2>
+      <table class='table'>
+        <tr>
           <td><%= link_to(@bookdetail.user) do %>
             <%= image_tag @bookdetail.user.get_profile_image(100,100) %><br>
             <%= @bookdetail.user.name %>
@@ -19,64 +19,22 @@
           </td>
           <td><%= link_to @bookdetail.title, @bookdetail %></td>
           <td><%= @bookdetail.body %></td>
-          <!--いいね機能を追加ここから-->
           <td>
-          <% if @bookdetail.favorited_by?(current_user)%><!--既にいいねを押したuserの場合再度リンクを押すことによって良いねを削除-->
-            <%= link_to book_favorite_path(@bookdetail), method: :delete, class: "favorite_btn" do %>
-             ♥<%= @bookdetail.favorites.count %> いいね  <!--ここで使われているfavoritesはbookモデルのアソシエーションで定義されている。-->
-            <% end %>
-          <% else %><!--まだいいねを押していなかったら、リンクを押すことによっていいねを追加-->
-            <%= link_to book_favorites_path(@bookdetail), method: :post, class: "favorite_btn" do %>
-             ♡<%= @bookdetail.favorites.count %> いいね
-            <% end %>
-          <% end  %>
+            <div id="favorites_buttons_<%=@bookdetail.id %>">
+             <%= render partial: 'favorites/favorite', locals: {bookdetail: @bookdetail} %> <!--いいね機能を追加ここから-->
+            </div>
           </td>
-          <!--いいね機能を追加ここまで-->
           <td>
-          <!--コメント件数を追加ここから-->
            コメント数：<%= @bookdetail.book_comments.count %>
-          <!--コメント件数を追加ここまで-->
           </td>
-          <%if @bookdetail.user == current_user %>
-            <td><%= link_to 'Edit', edit_book_path(@bookdetail), class: "btn btn-sm btn-success edit_book_#{@bookdetail.id}" %></td>
-            <td><%= link_to 'Destroy', @bookdetail, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
-          <% end %>
+            <%if @bookdetail.user == current_user %>
+              <td><%= link_to 'Edit', edit_book_path(@bookdetail), class: "btn btn-sm btn-success edit_book_#{@bookdetail.id}" %></td>
+              <td><%= link_to 'Destroy', @bookdetail, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
+            <% end %>
         </tr>
     　</table>
-
-        <!--コメント機能を追加form with-->
-        <%= form_with(model:[@bookdetail, @book_comment], local:true) do|f| %>
-           <%= render 'layouts/errors', obj: @book_comment %>
-            <div class="form-group">
-              <%= f.text_area :book_comment,style: "width:100%"%>
-            </div>
-            <div class="form-group">
-              <%= f.submit "送信" %>
-            </div>
-         <% end %>
-        <!--コメント機能を追加ここまで-->
-
-        <!--コメント一覧を追加　ここから-->
-        <h2>comments</h2>
-        <table class='table'>
-         <tr>
-          <th>user </th>
-          <th>comment</th>
-          <th colspan="1"></th>
-         </tr>
-      		 <% @book_comments.each do |book_comment| %>
-         <tr>
-            <td><!--コメントを投稿したuserの情報--><%= book_comment.user.name %>  </td>
-            <td> <!--コメント--> <%= book_comment.book_comment %></td>
-             <%if book_comment.user_id == current_user.id %>
-            <td>
-             <%= link_to 'Destroy', book_book_comment_path(book_comment.book,book_comment), method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%>
-            </td>
-             <% end %>
-         </tr>
-    		 <% end %>
-  		  </table>
-        <!--コメント一覧を追加ここまで-->
+      <div id="comments-area"><%= render "book_comments/comment",bookdetail: @bookdetail,book_comment: @book_comment %></div> <!--コメント機能を追加＿ここから-->
+      <div id="comments_all-area"><%= render "book_comments/comments", book_comments: @book_comments %></div>    <!--コメント一覧を追加=-->
     </div>
    </div>
   </div>

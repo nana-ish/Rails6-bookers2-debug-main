@@ -1,0 +1,9 @@
+    <% if bookdetail.favorited_by?(current_user)%><!--既にいいねを押したuserの場合再度リンクを押すことによって良いねを削除-->
+      <%= link_to book_favorites_path(bookdetail), method: :delete,  remote: true, class: "favorite_btn" do %>
+       ♥<%= bookdetail.favorites.count %> いいね  <!--ここで使われているfavoritesはbookモデルのアソシエーションで定義されている。-->
+      <% end %>
+    <% else %><!--まだいいねを押していなかったら、リンクを押すことによっていいねを追加-->
+      <%= link_to book_favorites_path(bookdetail), method: :post, remote: true, class: "favorite_btn" do %>
+       ♡<%= bookdetail.favorites.count %> いいね
+      <% end %>
+    <% end %>

@@ -8,20 +8,21 @@ class User < ApplicationRecord
   has_many :favorites,dependent: :destroy
   has_many :book_comments,dependent: :destroy
 
- # ====================フォローしているユーザーとの関連 ================================================================================================================
+ # ====================フォローしているユーザーとの関連 ====================================================================================================================
   #フォローする側から見た 、フォローされる側のUserを(中間テーブルを介して)集める。なので親（捕まえる側）はfollower_id(フォローする側)にあたる。この親を　foreign_key　とする。
   has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   #userが中間テーブル（relationships）を介して、follower(relationsship.rbで定義したuserモデルをもとにした仮想モデル)の情報を持ってくる。
-  #sourceは何を基準にデータを持ってくるかであるため、自分がフォローしている人(followed)が基準になる。has_many :followedsの1単位
+  #sourceは、has_many :followedsの1単位を書く。
   has_many :followeds, through: :active_relationships, source: :followed
+# ===========================================================================================================================================================================
 
 
-# =====================フォローされるユーザーとの関連 ===================================================================================================================
+# =====================フォローされるユーザーとの関連 ========================================================================================================================
   #フォローされた側から見たアソシエーション、フォローしてくる側のUserを(中間テーブルを介して)集める。なので親はfollowed_id(フォローされる側)
   has_many :passsive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
   #userが中間テーブル（relationships）を介して、followerの情報(relationsship.rbで定義したuserモデルをもとにした仮想モデル)を持ってくる
   has_many :followers, through: :passsive_relationships, source: :follower
-
+# =============================================================================================================================================================================
 
   has_one_attached :profile_image
 

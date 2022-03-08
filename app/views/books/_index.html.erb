@@ -19,15 +19,11 @@
         <td><%= link_to book.title,book, class: "book_#{book.id}" %></td>
         <td><%= book.body %></td>
         <td>
-          <% if book.favorited_by?(current_user)%><!--既にいいねを押したuserの場合再度リンクを押すことによって良いねを削除-->
-            <%= link_to book_favorite_path(book,book.favorites), method: :delete, class: "favorite_btn" do %>
-             ♥<%= book.favorites.count %> いいね  <!--ここで使われているfavoritesはbookモデルのアソシエーションで定義されている。-->
-            <% end %>
-          <% else %><!--まだいいねを押していなかったら、リンクを押すことによっていいねを追加-->
-            <%= link_to book_favorites_path(book), method: :post, class: "favorite_btn" do %>
-             ♡<%= book.favorites.count %> いいね
-            <% end %>
-          <% end  %>
+        <!--======================いいね機能を追加ここから==============================-->
+          <div id="favorites_buttons_<%= book.id %>">
+           <%= render partial: 'favorites/favorite', locals: {bookdetail: book} %>
+          </div>
+        <!--=====================いいね機能を追加ここまで=================================-->
         </td>
         <td>コメント数：<%=book.book_comments.count %></td>
       </tr>
