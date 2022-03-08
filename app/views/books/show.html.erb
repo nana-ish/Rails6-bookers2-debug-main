@@ -27,10 +27,10 @@
           <td>
            コメント数：<%= @bookdetail.book_comments.count %>
           </td>
-            <%if @bookdetail.user == current_user %>
-              <td><%= link_to 'Edit', edit_book_path(@bookdetail), class: "btn btn-sm btn-success edit_book_#{@bookdetail.id}" %></td>
-              <td><%= link_to 'Destroy', @bookdetail, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
-            <% end %>
+          <%if @bookdetail.user == current_user %>
+          <td><%= link_to 'Edit', edit_book_path(@bookdetail), class: "btn btn-sm btn-success edit_book_#{@bookdetail.id}" %></td>
+          <td><%= link_to 'Destroy', @bookdetail, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
+          <% end %>
         </tr>
     　</table>
       <div id="comments-area"><%= render "book_comments/comment",bookdetail: @bookdetail,book_comment: @book_comment %></div> <!--コメント機能を追加＿ここから-->

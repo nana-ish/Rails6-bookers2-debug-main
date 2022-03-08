@@ -12,10 +12,10 @@ class BookCommentsController < ApplicationController
   end
 
   def destroy
-   bookdetail = Book.find(params[:book_id])                                                 #destroy.jsで使う変数
-   @book_comment = BookComment.find_by(id: params[:id], book_id: params[:book_id])          #＠book_commentは削除する値の変数
-   @book_comment.destroy
-   @book_comments = bookdetail.book_comments                                                #特定の本に紐付いたbook_commentを全て持ってきて@book_commentsに格納
+    bookdetail = Book.find(params[:book_id])                                                 #destroy.jsで使う変数
+    @book_comment = BookComment.find_by(id: params[:id], book_id: params[:book_id])          #＠book_commentは削除する値の変数
+    @book_comment.destroy
+    @book_comments = bookdetail.book_comments                                                #特定の本に紐付いたbook_commentを全て持ってきて@book_commentsに格納
   end
 
 
