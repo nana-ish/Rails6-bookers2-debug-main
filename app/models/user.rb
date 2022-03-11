@@ -16,7 +16,6 @@ class User < ApplicationRecord
   has_many :followeds, through: :active_relationships, source: :followed
 # ===========================================================================================================================================================================
 
-
 # =====================フォローされるユーザーとの関連 ========================================================================================================================
   #フォローされた側から見たアソシエーション、フォローしてくる側のUserを(中間テーブルを介して)集める。なので親はfollowed_id(フォローされる側)
   has_many :passsive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
@@ -24,6 +23,10 @@ class User < ApplicationRecord
   has_many :followers, through: :passsive_relationships, source: :follower
 # =============================================================================================================================================================================
 
+# =====================ダイレクトメッセージ機能================================================================================================================================
+  has_many :user_rooms, dependent: :destroy
+  has_many :chats, dependent: :destroy
+# =============================================================================================================================================================================
   has_one_attached :profile_image
 
   validates :name, length: { minimum:2, maximum:20 }, uniqueness: true
@@ -37,9 +40,8 @@ class User < ApplicationRecord
     profile_image.variant(resize_to_limit: [width, height]).processed
   end
 
-
+   # (引数のuser)がフォローしようとしているユーザー(レシーバー)がフォローされているユーザー(つまりpassive)の中から、引数に渡されたユーザー(自分)がいるかどうかを調べる
   def followed_by?(user)
-    # (引数のuser)がフォローしようとしているユーザー(レシーバー)がフォローされているユーザー(つまりpassive)の中から、引数に渡されたユーザー(自分)がいるかどうかを調べる
     passsive_relationships.find_by(follower_id: user.id).present?
   end
 

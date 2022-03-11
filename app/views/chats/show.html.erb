@@ -1,0 +1,3 @@
+  <div><%= @user.name %>さんにメッセージを送信</div>
+  <div id="chats_all"><%= render "chats/chats.all",chats: @chats %></div>    <!--今までのチャット全て投稿-->
+  <div id="chats_new"><%= render "chats/new.chat", chats: @chats %></div>    <!--新しい投稿を保存=-->

@@ -1,9 +1,11 @@
     <% if bookdetail.favorited_by?(current_user)%><!--既にいいねを押したuserの場合再度リンクを押すことによって良いねを削除-->
-      <%= link_to book_favorites_path(bookdetail), method: :delete,  remote: true, class: "favorite_btn" do %>
-       ♥<%= bookdetail.favorites.count %> いいね  <!--ここで使われているfavoritesはbookモデルのアソシエーションで定義されている。-->
+      <%= link_to book_favorites_path(bookdetail), method: :delete,  remote: true, class: "glyphicon glyphicon-heart" do %>
+       <i class="fas fa-heart" aria-hidden="true" style="color: red;"></i>
+         <i class = "text-danger">  <%= bookdetail.favorites.count %> いいね</i> <!--ここで使われているfavoritesはbookモデルのアソシエーションで定義されている。-->
       <% end %>
     <% else %><!--まだいいねを押していなかったら、リンクを押すことによっていいねを追加-->
-      <%= link_to book_favorites_path(bookdetail), method: :post, remote: true, class: "favorite_btn" do %>
-       ♡<%= bookdetail.favorites.count %> いいね
+      <%= link_to book_favorites_path(bookdetail), method: :post, remote: true, class: "glyphicon glyphicon-heart-empty" do %>
+        <i class="fas fa-heart" aria-hidden="true"></i>
+         <i class = "text-primary">   <%= bookdetail.favorites.count %> いいね</i>
       <% end %>
     <% end %>

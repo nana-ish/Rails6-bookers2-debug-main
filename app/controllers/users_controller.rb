@@ -9,10 +9,10 @@ class UsersController < ApplicationController
   end
 
   def index
-    @user=current_user
-    @book=Book.new
+    @user = current_user
+    @book = Book.new
     @users = User.all
-    @books=Book.all
+    @books = Book.all
   end
 
   def edit
@@ -43,6 +43,7 @@ class UsersController < ApplicationController
     @users = @user.followers
   end
 
+
 #ストロングパラメータ
   private
 
@@ -56,6 +57,5 @@ class UsersController < ApplicationController
     redirect_to user_path(current_user)
     end
   end
-
 
 end

@@ -1,0 +1,7 @@
+
+$("#chats_new").html("<%= j(render "chats/new.chat" ,chats: @chats)%>");
+$('input[type=text]').val("");<!--/*チャット投稿後、フォームの値に前回の投稿内容が残らないようにする */-->
+
+
+<!--console.log("ここまできたよ");-->
+

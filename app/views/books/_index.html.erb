@@ -1,5 +1,4 @@
 <table class='table table-hover table-inverse'>
-
   <thead>
     <tr>
       <th></th>
@@ -21,7 +20,7 @@
         <td>
         <!--======================いいね機能を追加ここから==============================-->
           <div id="favorites_buttons_<%= book.id %>">
-           <%= render partial: 'favorites/favorite', locals: {bookdetail: book} %>
+         <%= render partial: 'favorites/favorite', locals: {bookdetail: book} %>
           </div>
         <!--=====================いいね機能を追加ここまで=================================-->
         </td>
@@ -29,4 +28,4 @@
       </tr>
     <% end %>
   </tbody>
-</table>
+ </table>
